@@ -28,7 +28,7 @@ export const Signin = () => {
 
       const token = res.data.token;
 
-      localStorage.setItem("token", token);
+      localStorage.setItem("sec-brain-token", token);
 
       alert("Signin successful");
       navigate("/dashboard");

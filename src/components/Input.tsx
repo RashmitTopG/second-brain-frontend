@@ -1,4 +1,4 @@
-import React, { forwardRef, type ChangeEvent } from "react";
+import { forwardRef, type ChangeEvent } from "react";
 
 interface InputProps {
   value?: string;

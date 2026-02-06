@@ -12,6 +12,8 @@ export function useContent(){
             }
         }).then((response)=>{
             setContents(response.data.content)
+        }).catch((error) => {
+            console.error("Error fetching content:", error);
         })
     },[])
     

@@ -96,7 +96,7 @@ export const Modal = ({
       onClick={onClose}
     >
       <div
-        className="bg-white p-6 rounded-lg shadow-xl w-[300px] relative"
+        className="bg-white p-6 rounded-lg shadow-xl w-75 relative"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-end cursor-pointer" onClick={onClose}>

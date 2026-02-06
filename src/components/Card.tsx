@@ -1,4 +1,3 @@
-import { ShareIcon } from "../icons/ShareIcon";
 import { useEffect } from "react";
 import TrashIcon from "../icons/TrashIcon";
 import RedirectIcon from "../icons/RedirectIcon";
@@ -81,7 +80,7 @@ export const Card = (props: CardProps) => {
         {/* Notion */}
         {type === "notion" && (
           <iframe
-            className="w-full h-[400px] rounded-sm border"
+            className="w-full h-100 rounded-sm border"
             srcDoc={`
       <html>
         <body style="

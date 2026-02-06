@@ -2,14 +2,16 @@ import { Button } from "../components/Button";
 import { Card } from "../components/Card";
 import { Modal } from "../components/Modal";
 import { PlusIcon } from "../icons/PlusIcon";
-import { ShareIcon } from "../icons/ShareIcon";
 import { useEffect, useState } from "react";
 import "../index.css";
 import { SideBar } from "../components/SideBar";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
+import Dropdown from "../components/Dropdown";
+
 
 function DashBoard() {
+
   const [modalOpen, setModalOpen] = useState(false);
   const [contentData, setContentData] = useState<any[]>([]);
   const [typeFilter, setTypeFilter] = useState<string>("");
@@ -37,7 +39,6 @@ function DashBoard() {
   );
 
   const deletePost = async (element_id: string) => {
-    // console.log(element_id);
     try {
       await axios.delete(`${BACKEND_URL}/api/v1/content`, {
         headers: {
@@ -51,6 +52,7 @@ function DashBoard() {
       console.error("Error Occured : ", error);
     }
     fetchData();
+    alert("Post Deleted Successfully");
   };
 
   return (
@@ -73,11 +75,7 @@ function DashBoard() {
             text="Add Content"
             startIcon={<PlusIcon />}
           />
-          <Button
-            variant="secondary"
-            text="Share Brain"
-            startIcon={<ShareIcon />}
-          />
+          <Dropdown/>
         </div>
 
         <div className="columns-3 gap-4 mt-4">
@@ -87,7 +85,7 @@ function DashBoard() {
                 title={element.title}
                 link={element.link}
                 type={element.type}
-                onDelete={() => deletePost(element._id)}
+                onDelete={() => deletePost(element._id)} 
               />
             </div>
           ))}

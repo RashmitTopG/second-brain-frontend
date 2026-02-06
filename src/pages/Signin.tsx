@@ -10,19 +10,14 @@ export const Signin = () => {
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
-
   const signin = async () => {
+
     try {
       const res = await axios.post(
-        BACKEND_URL + "/api/v1/signin",
-        new URLSearchParams({
+        `${BACKEND_URL}/api/v1/signin`,
+        {
           username,
           password,
-        }),
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
         }
       );
 

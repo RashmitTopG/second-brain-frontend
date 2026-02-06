@@ -18,15 +18,10 @@ const signup = async () => {
   try {
     await axios.post(
       BACKEND_URL + "/api/v1/signup",
-      new URLSearchParams({
+      {
         email,
         username,
         password,
-      }),
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
       }
     );
 

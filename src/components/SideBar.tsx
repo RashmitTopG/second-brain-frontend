@@ -14,7 +14,7 @@ export const SideBar = ({
   onClose,
 }: {
   onSelect: (val: string) => void;
-  isOpen: boolean;
+  isOpen?: boolean;
   onClose: () => void;
 }) => {
   const navigate = useNavigate();

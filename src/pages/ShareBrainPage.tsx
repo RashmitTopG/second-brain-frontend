@@ -42,7 +42,9 @@ export default function SharedBrainPage() {
         {username ? `${username}'s Brain` : "Shared Brain"}
       </div>
 
-      <SideBar onSelect={setTypeFilter} />
+      <SideBar onSelect={setTypeFilter} onClose={function (): void {
+        throw new Error("Function not implemented.");
+      } } />
 
       <div className="pl-4 ml-60 pt-4">
         {filteredData.length === 0 ? (

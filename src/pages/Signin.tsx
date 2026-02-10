@@ -35,7 +35,7 @@ export const Signin = () => {
 
   return (
     <div className="h-screen w-screen bg-gray-200 flex justify-center items-center">
-      <div className="flex flex-col bg-white rounded-xl border min-w-48 p-8">
+      <div className="flex flex-col bg-white rounded-xl border w-11/12 max-w-sm p-8">
         <Input
           placeholder="Username"
           onChange={(e) => setUsername(e.target.value)}

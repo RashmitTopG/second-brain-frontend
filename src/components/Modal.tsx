@@ -92,11 +92,11 @@ export const Modal = ({
 
   return (
     <div
-      className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50"
+      className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50 p-4"
       onClick={onClose}
     >
       <div
-        className="bg-white p-6 rounded-lg shadow-xl w-75 relative"
+        className="bg-white p-6 rounded-lg shadow-xl w-11/12 max-w-md relative"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-end cursor-pointer" onClick={onClose}>

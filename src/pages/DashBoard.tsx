@@ -15,6 +15,7 @@ function DashBoard() {
   const [modalOpen, setModalOpen] = useState(false);
   const [contentData, setContentData] = useState<any[]>([]);
   const [typeFilter, setTypeFilter] = useState<string>("");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -57,9 +58,13 @@ function DashBoard() {
 
   return (
     <div>
-      <SideBar onSelect={setTypeFilter} />
+      <SideBar 
+        onSelect={setTypeFilter} 
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+      />
 
-      <div className="p-4 ml-60 min-h-screen bg-slate-100">
+      <div className="sm:p-4 md:ml-60 ml-0 min-h-screen bg-slate-100 transition-all duration-300">
         <Modal
           open={modalOpen}
           onClose={() => {
@@ -68,17 +73,28 @@ function DashBoard() {
           }}
         />
 
-        <div className="flex justify-end gap-4 pb-5">
-          <Button
-            onClick={() => setModalOpen(true)}
-            variant="primary"
-            text="Add Content"
-            startIcon={<PlusIcon />}
-          />
-          <Dropdown/>
+        <div className="flex justify-between md:justify-end gap-4 pb-5 p-4 items-center">
+             {/* Mobile Menu Button */}
+          <div className="md:hidden" onClick={() => setSidebarOpen(true)}>
+            <div className="cursor-pointer">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+              </svg>
+            </div>
+          </div>
+          
+          <div className="flex gap-4">
+            <Button
+                onClick={() => setModalOpen(true)}
+                variant="primary"
+                text="Add Content"
+                startIcon={<PlusIcon />}
+            />
+            <Dropdown/>
+          </div>
         </div>
 
-        <div className="columns-3 gap-4 mt-4">
+        <div className="columns-1 md:columns-3 gap-4 mt-4 px-4">
           {filteredData.map((element: any) => (
             <div key={element._id} className="break-inside-avoid mb-6">
               <Card

@@ -35,7 +35,7 @@ const signup = async () => {
 
     return (
         <div className="h-screen w-screen bg-gray-200 flex justify-center items-center">
-            <div className="bg-white rounded-xl flex flex-col border min-w-48 p-8">
+            <div className="bg-white rounded-xl flex flex-col border w-11/12 max-w-sm p-8">
                 <Input placeholder="Email" onChange={(e)=>{
                     setEmail(e.target.value);
                 }}></Input>

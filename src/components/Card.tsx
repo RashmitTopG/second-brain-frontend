@@ -27,7 +27,7 @@ export const Card = (props: CardProps) => {
   }, [type, link]);
 
   return (
-    <div className="p-4 bg-white rounded-md border border-gray-200 w-80 min-h-48 flex flex-col ">
+    <div className="p-4 bg-white rounded-md border border-gray-200 w-full max-w-md md:w-80 min-h-48 flex flex-col ">
       {/* Header */}
       <div className="flex items-start justify-between gap-3 text-sm">
         <div className="flex items-center gap-2 overflow-hidden">
@@ -72,7 +72,7 @@ export const Card = (props: CardProps) => {
 
         {/* Twitter */}
         {type === "twitter" && (
-          <blockquote className="twitter-tweet">
+          <blockquote className="twitter-tweet w-full">
             <a href={link.replace("x.com", "twitter.com")}></a>
           </blockquote>
         )}

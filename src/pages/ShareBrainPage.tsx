@@ -10,6 +10,7 @@ export default function SharedBrainPage() {
   const [contentData, setContentData] = useState<any[]>([]);
   const [typeFilter, setTypeFilter] = useState<string>("");
   const [username, setUsername] = useState<string>("");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const { getSharedBrain } = useGetSharedBrain();
 
@@ -37,22 +38,33 @@ export default function SharedBrainPage() {
   );
 
   return (
-    <div>
-      <div className="text-purple-dark flex justify-center items-center pt-6 text-4xl">
-        {username ? `${username}'s Brain` : "Shared Brain"}
-      </div>
+    <div className="min-h-screen bg-slate-100">
+      <SideBar 
+        onSelect={setTypeFilter} 
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)} 
+      />
 
-      <SideBar onSelect={setTypeFilter} onClose={function (): void {
-        throw new Error("Function not implemented.");
-      } } />
+      <div className="md:ml-60 ml-0 transition-all duration-300 p-4">
+        <div className="flex justify-between items-center pb-6">
+          {/* Mobile Menu Button */}
+          <div className="md:hidden cursor-pointer" onClick={() => setSidebarOpen(true)}>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-black">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          </div>
 
-      <div className="pl-4 ml-60 pt-4">
+          <div className="text-purple-dark text-2xl md:text-4xl font-bold flex-1 text-center md:text-left">
+            {username ? `${username}'s Brain` : "Shared Brain"}
+          </div>
+        </div>
+
         {filteredData.length === 0 ? (
           <div className="text-center text-gray-500 text-xl mt-10">
             Cant View This Brain
           </div>
         ) : (
-          <div className="columns-3 gap-4 mt-4">
+          <div className="columns-1 md:columns-2 lg:columns-3 gap-4 mt-4">
             {filteredData.map((element: any) => (
               <div key={element._id} className="break-inside-avoid mb-6">
                 <Card

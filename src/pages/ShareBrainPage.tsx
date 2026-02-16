@@ -54,7 +54,7 @@ export default function SharedBrainPage() {
             </svg>
           </div>
 
-          <div className="text-purple-dark text-2xl md:text-4xl font-bold flex-1 text-center md:text-left">
+          <div className="flex justify-center text-purple-dark text-2xl md:text-4xl font-bold flex-1 text-center md:text-left">
             {username ? `${username}'s Brain` : "Shared Brain"}
           </div>
         </div>

@@ -47,6 +47,7 @@ export const Signin = () => {
 
         <Input
           placeholder="Password"
+          type="password"
           onChange={(e) => setPassword(e.target.value)}
         />
 

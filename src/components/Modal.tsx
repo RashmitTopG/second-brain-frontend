@@ -23,13 +23,10 @@ const detectContentType = (url: string): ContentTypes => {
     if (hostname.includes("twitter.com") || hostname.includes("x.com"))
       return ContentTypes.Twitter;
 
-    if (
-      hostname.includes("notion.so") ||
-      hostname.includes("notion.site")
-    )
+    if (hostname.includes("notion.so") || hostname.includes("notion.site"))
       return ContentTypes.Notion;
 
-    if (pathname.endsWith(".pdf")) return ContentTypes.PDF;
+    if (pathname.toLowerCase().endsWith(".pdf")) return ContentTypes.PDF;
 
     return ContentTypes.Unknown;
   } catch {
@@ -46,10 +43,12 @@ export const Modal = ({
 }) => {
   const titleRef = useRef<HTMLInputElement>(null);
   const linkRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [previewType, setPreviewType] = useState<ContentTypes>(
     ContentTypes.Unknown
   );
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   if (!open) return null;
 
@@ -57,36 +56,65 @@ export const Modal = ({
     setPreviewType(detectContentType(e.target.value));
   };
 
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+
+    if (file) {
+      setSelectedFile(file);
+      setPreviewType(ContentTypes.PDF);
+      if (linkRef.current) linkRef.current.value = "";
+    }
+  };
+
   const addContent = async () => {
     const title = titleRef.current?.value ?? "";
-    const link = linkRef.current?.value ?? "";
+    const linkValue = linkRef.current?.value ?? "";
 
-    if (!title.trim() || !link.trim()) {
-      alert("Title and Link are required");
+    if (!title.trim()) {
+      alert("Title is required");
       return;
     }
 
-    const type = detectContentType(link);
-
     try {
+      let finalLink = linkValue;
+      let finalType = detectContentType(linkValue);
+
+      // 1. If a file is selected, upload it first to get a Cloudinary URL
+      if (selectedFile) {
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+
+        const uploadRes = await axios.post(`${BACKEND_URL}/api/v1/upload`, formData, {
+          withCredentials: true,
+        });
+        
+        finalLink = uploadRes.data.url;
+        finalType = ContentTypes.PDF;
+      } else {
+        if (!linkValue.trim()) {
+          alert("Link is required");
+          return;
+        }
+      }
+
+      // 2. Send the final JSON request to create content
       await axios.post(
         `${BACKEND_URL}/api/v1/content`,
-        { title, link, type }, // frontend-only detection
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("sec-brain-token")}`,
-          },
-        }
+        { title, link: finalLink, type: finalType },
+        { withCredentials: true }
       );
 
-      // clear inputs
+      // reset state
       if (titleRef.current) titleRef.current.value = "";
       if (linkRef.current) linkRef.current.value = "";
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      setSelectedFile(null);
       setPreviewType(ContentTypes.Unknown);
 
       onClose();
     } catch (err: any) {
-      console.log(err.response?.data || err.message);
+      console.error(err.response?.data || err.message);
+      alert("Error adding content: " + (err.response?.data?.message || err.message));
     }
   };
 
@@ -112,12 +140,39 @@ export const Modal = ({
           />
         </div>
 
+        {/* Hidden file input */}
+        <input
+          type="file"
+          ref={fileInputRef}
+          className="hidden"
+          accept="application/pdf"
+          onChange={handleFileSelect}
+        />
+
         <p className="text-xs text-gray-500 text-center mt-2">
           Detected type: <b>{previewType}</b>
         </p>
 
-        <div className="flex justify-center mt-4">
-          <Button onClick={addContent} variant="primary" text="Submit" />
+        {selectedFile && (
+          <p className="text-xs text-green-600 text-center">
+            Selected file: {selectedFile.name}
+          </p>
+        )}
+
+        <div className="flex gap-3 mt-4">
+          {/* Submit (long) */}
+          <div className="flex flex-col w-68">
+            <Button onClick={addContent} variant="primary" text="Submit" />
+          </div>
+
+          {/* Upload File (small) */}
+          <div>
+            <Button
+              onClick={() => fileInputRef.current?.click()}
+              variant="secondary"
+              text="Upload File"
+            />
+          </div>
         </div>
       </div>
     </div>

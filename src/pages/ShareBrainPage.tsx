@@ -3,6 +3,7 @@ import { SideBar } from "../components/SideBar";
 import { useParams } from "react-router-dom";
 import useGetSharedBrain from "../hooks/useGetSharedBrain";
 import { Card } from "../components/Card";
+import SearchBar from "../components/SearchBar";
 
 export default function SharedBrainPage() {
   const { hash } = useParams();
@@ -11,6 +12,7 @@ export default function SharedBrainPage() {
   const [typeFilter, setTypeFilter] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const[searchQuery,setSearchQuery] = useState("");
 
   const { getSharedBrain } = useGetSharedBrain();
 
@@ -33,9 +35,20 @@ export default function SharedBrainPage() {
     fetchBrainData();
   }, [hash]);
 
-  const filteredData = contentData.filter((x) =>
-    typeFilter ? x.type === typeFilter : true
-  );
+  
+    const handleSearch = (query: string) => {
+      setSearchQuery(query);
+    };
+
+    const filteredData = contentData.filter((item) => {
+      const matchesType = typeFilter ? item.type === typeFilter : true;
+      const matchesSearch = item.title
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
+  
+      return matchesType && matchesSearch;
+    });
+  
 
   return (
     <div className="min-h-screen bg-slate-100">
@@ -56,6 +69,9 @@ export default function SharedBrainPage() {
 
           <div className="flex justify-center text-purple-dark text-2xl md:text-4xl font-bold flex-1 text-center md:text-left">
             {username ? `${username}'s Brain` : "Shared Brain"}
+          </div>
+          <div className="flex">
+              <SearchBar onSearch={handleSearch}/>
           </div>
         </div>
 

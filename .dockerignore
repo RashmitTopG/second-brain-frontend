@@ -1,0 +1,42 @@
+# Node modules
+node_modules
+npm-debug.log
+yarn-error.log
+pnpm-lock.yaml
+
+# Build output
+dist
+build
+
+# Local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Docker files (optional but recommended)
+Dockerfile
+docker-compose.yml
+docker-compose.dev.yml
+
+# Testing
+coverage
+
+# IDE files
+.vscode
+.idea
+
+# TypeScript cache
+*.tsbuildinfo

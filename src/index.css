@@ -8,4 +8,42 @@
   --color-slate-100: #eeeeef;
   --color-slate-200: #e6e9ed;
   --color-slate-600: #95989c;
+
+  --color-glass: rgba(255, 255, 255, 0.7);
+}
+
+@utility bg-soft-purple-gradient {
+  background: radial-gradient(circle at top right, rgba(148, 146, 219, 0.1), transparent),
+    radial-gradient(circle at bottom left, rgba(113, 100, 192, 0.05), transparent);
+}
+
+@utility glass {
+  background: var(--color-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }

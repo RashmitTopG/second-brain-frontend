@@ -8,9 +8,7 @@ export default function useShareBrain() {
         `${BACKEND_URL}/api/v1/brain/share`,
         { share: true },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("sec-brain-token")}`,
-          },
+          withCredentials:true
         }
       );
 
@@ -30,9 +28,7 @@ export default function useShareBrain() {
         `${BACKEND_URL}/api/v1/brain/share`,
         { share: false },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("sec-brain-token")}`,
-          },
+          withCredentials : true
         }
       );
       return true;

@@ -2,11 +2,14 @@ import { useNavigate } from "react-router-dom";
 import { Logo } from "../icons/Logo";
 import NotionIcon from "../icons/NotionIcon";
 import Private from "../icons/Private";
-import { Twitter } from "../icons/TwitterIcon";
+import { TwitterIcon as Twitter } from "../icons/TwitterIcon";
 import { Youtube } from "../icons/YoutubeIcon";
 import { Button } from "./Button";
 import { SideBarItem } from "./SideBarItem";
+import PdfIcon from "../icons/PdfIcon";
 import UserIcon from "../icons/UserIcon";
+import axios from "axios";
+import { BACKEND_URL } from "../config";
 
 export const SideBar = ({
   onSelect,
@@ -73,6 +76,15 @@ export const SideBar = ({
           />
 
           <SideBarItem
+            icon={<PdfIcon />}
+            text="PDF"
+            onSelect={() => {
+                onSelect("pdf");
+                onClose();
+            }}
+          />
+
+          <SideBarItem
             icon={<Private />}
             text="Others"
             onSelect={() => {
@@ -87,8 +99,11 @@ export const SideBar = ({
             startIcon={<UserIcon />}
             variant="primary"
             text="Logout"
-            onClick={() => {
-              localStorage.removeItem("sec-brain-token");
+            onClick={async () => {
+              await axios.post(`${BACKEND_URL}/api/v1/logout`,{
+              },{
+                withCredentials:true
+              })
               navigate("/");
             }}
           />
